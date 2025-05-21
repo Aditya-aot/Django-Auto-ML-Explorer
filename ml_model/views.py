@@ -1,0 +1,13 @@
+from django.shortcuts import render
+# Create your views here.
+
+def home(request) :
+
+    return render(request, 'main_page/index.html')
+
+
+
+
+def functions(request) :
+
+    return render(request, 'main_page/fun.html')
