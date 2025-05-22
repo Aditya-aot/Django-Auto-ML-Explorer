@@ -1,0 +1,33 @@
+Model,Feature,Importance
+Random Forest,year_of_reference,0.0
+Random Forest,engine_size,0.4767330014618292
+Random Forest,year_model,0.19152142412993442
+Random Forest,month_of_reference_n,0.0019948568243789012
+Random Forest,brand_n,0.14113823417073315
+Random Forest,model_n,0.12047506554795394
+Random Forest,fuel_n,0.06360603047130284
+Random Forest,gear_n,0.004531387393867663
+Decision Tree,year_of_reference,0.0
+Decision Tree,engine_size,0.4707856498509593
+Decision Tree,year_model,0.2046290546159332
+Decision Tree,month_of_reference_n,0.002207248223109858
+Decision Tree,brand_n,0.13515089743183817
+Decision Tree,model_n,0.11331607875325098
+Decision Tree,fuel_n,0.07061668511184796
+Decision Tree,gear_n,0.003294386013060453
+Extra Trees Regressor,year_of_reference,0.0
+Extra Trees Regressor,engine_size,0.3971517724757069
+Extra Trees Regressor,year_model,0.24320293488039885
+Extra Trees Regressor,month_of_reference_n,0.0025697946095382413
+Extra Trees Regressor,brand_n,0.16424965371831057
+Extra Trees Regressor,model_n,0.09805343638929113
+Extra Trees Regressor,fuel_n,0.05310457388230924
+Extra Trees Regressor,gear_n,0.04166783404444512
+XGB Regressor,year_of_reference,0.0
+XGB Regressor,engine_size,0.2521721124649048
+XGB Regressor,year_model,0.06952523440122604
+XGB Regressor,month_of_reference_n,0.0007005241932347417
+XGB Regressor,brand_n,0.09625600278377533
+XGB Regressor,model_n,0.05213821306824684
+XGB Regressor,fuel_n,0.5161803364753723
+XGB Regressor,gear_n,0.013027586974203587
