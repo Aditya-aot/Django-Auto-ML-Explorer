@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Performance Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .dashboard-header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .model-selector {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .model-selector select {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .model-selector select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .model-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .model-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .model-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .model-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-name {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-val {
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            color: #e74c3c;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🤖 ML Dashboard</div>
+            <ul class="nav-links">
+                <li><a href="#overview" class="nav-link active">Overview</a></li>
+                <li><a href="#models" class="nav-link">Models</a></li>
+                <li><a href="#predictions" class="nav-link">Predictions</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Machine Learning Performance Dashboard</h1>
+            <p>Real-time analysis of model performance and predictions</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="overview">📊 Overview</button>
+            <button class="tab-button" data-tab="comparison">🔍 Model Comparison</button>
+            <button class="tab-button" data-tab="predictions">📈 Predictions</button>
+            <button class="tab-button" data-tab="features">🎯 Feature Importance</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            Loading dashboard data...
+        </div>
+
+        <div id="error" class="error-message" style="display: none;">
+            <h3>⚠️ Error Loading Data</h3>
+            <p>Please make sure the CSV files are properly uploaded and accessible.</p>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active" style="display: none;">
+            <div class="cards-grid" id="overview-cards">
+                <!-- Cards will be dynamically generated -->
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Model Performance Comparison</h3>
+                <canvas id="metricsChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Model Comparison Tab -->
+        <div id="comparison" class="tab-content">
+            <div class="comparison-grid" id="model-comparison">
+                <!-- Model cards will be dynamically generated -->
+            </div>
+        </div>
+
+        <!-- Predictions Tab -->
+        <div id="predictions" class="tab-content">
+            <div class="model-selector">
+                <select id="modelSelect">
+                    <option value="">Select a model to view predictions</option>
+                </select>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Actual vs Predicted Values</h3>
+                <canvas id="predictionsChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Prediction Accuracy Distribution</h3>
+                <canvas id="accuracyChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Feature Importance Tab -->
+        <div id="features" class="tab-content">
+            <div class="model-selector">
+                <select id="featureModelSelect">
+                    <option value="">Select a model to view feature importance</option>
+                </select>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Feature Importance Analysis</h3>
+                <canvas id="featuresChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables to store data
+        let metricsData = [];
+        let predictionsData = [];
+        let featuresData = [];
+        let charts = {};
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTabs();
+            loadData();
+        });
+
+        // Tab functionality
+        function initializeTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.getAttribute('data-tab');
+                    
+                    // Update buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                    });
+                    
+                    const targetContent = document.getElementById(targetTab);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                        targetContent.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        // Load and parse CSV data
+        async function loadData() {
+            try {
+                const [metricsFile, predictionsFile, featuresFile] = await Promise.all([
+                    window.fs.readFile('Django/metrics.csv', { encoding: 'utf8' }),
+                    window.fs.readFile('Django/Actual_vs_Predicted.csv', { encoding: 'utf8' }),
+                    window.fs.readFile('Django/Feature_Importances.csv', { encoding: 'utf8' })
+                ]);
+
+                // Parse CSV data
+                metricsData = Papa.parse(metricsFile, { header: true, dynamicTyping: true }).data;
+                predictionsData = Papa.parse(predictionsFile, { header: true, dynamicTyping: true }).data;
+                featuresData = Papa.parse(featuresFile, { header: true, dynamicTyping: true }).data;
+
+                // Filter out empty rows
+                metricsData = metricsData.filter(row => row.Model);
+                predictionsData = predictionsData.filter(row => row.Model);
+                featuresData = featuresData.filter(row => row.Model);
+
+                // Hide loading and show content
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('overview').style.display = 'block';
+
+                // Initialize dashboard components
+                createOverviewCards();
+                createModelComparison();
+                initializePredictionsTab();
+                initializeFeaturesTab();
+                createMetricsChart();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        // Create overview cards
+        function createOverviewCards() {
+            const container = document.getElementById('overview-cards');
+            
+            if (metricsData.length === 0) return;
+
+            const bestModel = metricsData.reduce((best, current) => 
+                current['R² Score'] > best['R² Score'] ? current : best
+            );
+
+            const avgR2 = metricsData.reduce((sum, model) => sum + model['R² Score'], 0) / metricsData.length;
+            const avgRMSE = metricsData.reduce((sum, model) => sum + model.RMSE, 0) / metricsData.length;
+            const totalModels = metricsData.length;
+
+            const cards = [
+                {
+                    title: 'Best Model',
+                    value: bestModel.Model,
+                    label: `R² Score: ${bestModel['R² Score'].toFixed(4)}`,
+                    icon: '🏆'
+                },
+                {
+                    title: 'Total Models',
+                    value: totalModels,
+                    label: 'Models Analyzed',
+                    icon: '🤖'
+                },
+                {
+                    title: 'Average R² Score',
+                    value: avgR2.toFixed(4),
+                    label: 'Across All Models',
+                    icon: '📊'
+                },
+                {
+                    title: 'Average RMSE',
+                    value: avgRMSE.toLocaleString(),
+                    label: 'Root Mean Square Error',
+                    icon: '📈'
+                }
+            ];
+
+            container.innerHTML = cards.map(card => `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">${card.title}</h3>
+                        <div class="card-icon">${card.icon}</div>
+                    </div>
+                    <div class="metric-value">${card.value}</div>
+                    <div class="metric-label">${card.label}</div>
+                </div>
+            `).join('');
+        }
+
+        // Create model comparison cards
+        function createModelComparison() {
+            const container = document.getElementById('model-comparison');
+            
+            container.innerHTML = metricsData.map(model => `
+                <div class="model-card">
+                    <div class="model-name">${model.Model}</div>
+                    <div class="model-metrics">
+                        <div class="metric">
+                            <span class="metric-name">R² Score</span>
+                            <span class="metric-val">${model['R² Score'].toFixed(4)}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-name">RMSE</span>
+                            <span class="metric-val">${model.RMSE.toLocaleString()}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-name">MAE</span>
+                            <span class="metric-val">${model.MAE.toLocaleString()}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-name">Training Time</span>
+                            <span class="metric-val">${model['Training Time (s)'].toFixed(2)}s</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize predictions tab
+        function initializePredictionsTab() {
+            const modelSelect = document.getElementById('modelSelect');
+            const uniqueModels = [...new Set(predictionsData.map(row => row.Model))];
+            
+            modelSelect.innerHTML = '<option value="">Select a model to view predictions</option>' +
+                uniqueModels.map(model => `<option value="${model}">${model}</option>`).join('');
+            
+            modelSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    createPredictionsChart(e.target.value);
+                    createAccuracyChart(e.target.value);
+                }
+            });
+        }
+
+        // Initialize features tab
+        function initializeFeaturesTab() {
+            const featureModelSelect = document.getElementById('featureModelSelect');
+            const uniqueModels = [...new Set(featuresData.map(row => row.Model))];
+            
+            featureModelSelect.innerHTML = '<option value="">Select a model to view feature importance</option>' +
+                uniqueModels.map(model => `<option value="${model}">${model}</option>`).join('');
+            
+            featureModelSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    createFeaturesChart(e.target.value);
+                }
+            });
+        }
+
+        // Create metrics comparison chart
+        function createMetricsChart() {
+            const ctx = document.getElementById('metricsChart').getContext('2d');
+            
+            if (charts.metrics) {
+                charts.metrics.destroy();
+            }
+
+            charts.metrics = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: metricsData.map(row => row.Model),
+                    datasets: [
+                        {
+                            label: 'R² Score',
+                            data: metricsData.map(row => row['R² Score']),
+                            backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                maxRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create predictions chart
+        function createPredictionsChart(modelName) {
+            const ctx = document.getElementById('predictionsChart').getContext('2d');
+            const modelData = predictionsData.filter(row => row.Model === modelName);
+            
+            if (charts.predictions) {
+                charts.predictions.destroy();
+            }
+
+            charts.predictions = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Actual vs Predicted',
+                        data: modelData.map(row => ({ x: row.Actual, y: row.Predicted })),
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }, {
+                        label: 'Perfect Prediction Line',
+                        data: [
+                            { x: Math.min(...modelData.map(row => row.Actual)), y: Math.min(...modelData.map(row => row.Actual)) },
+                            { x: Math.max(...modelData.map(row => row.Actual)), y: Math.max(...modelData.map(row => row.Actual)) }
+                        ],
+                        type: 'line',
+                        borderColor: 'rgba(231, 76, 60, 0.8)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: false,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Actual Values'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Predicted Values'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create accuracy distribution chart
+        function createAccuracyChart(modelName) {
+            const ctx = document.getElementById('accuracyChart').getContext('2d');
+            const modelData = predictionsData.filter(row => row.Model === modelName);
+            
+            // Calculate prediction errors
+            const errors = modelData.map(row => Math.abs(row.Actual - row.Predicted));
+            const maxError = Math.max(...errors);
+            const binCount = 10;
+            const binSize = maxError / binCount;
+            
+            const bins = Array.from({ length: binCount }, (_, i) => ({
+                range: `${(i * binSize).toFixed(0)}-${((i + 1) * binSize).toFixed(0)}`,
+                count: 0
+            }));
+            
+            errors.forEach(error => {
+                const binIndex = Math.min(Math.floor(error / binSize), binCount - 1);
+                bins[binIndex].count++;
+            });
+            
+            if (charts.accuracy) {
+                charts.accuracy.destroy();
+            }
+
+            charts.accuracy = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: bins.map(bin => bin.range),
+                    datasets: [{
+                        label: 'Frequency',
+                        data: bins.map(bin => bin.count),
+                        backgroundColor: 'rgba(118, 75, 162, 0.8)',
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Prediction Error Range'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Frequency'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create features importance chart
+        function createFeaturesChart(modelName) {
+            const ctx = document.getElementById('featuresChart').getContext('2d');
+            const modelFeatures = featuresData.filter(row => row.Model === modelName);
+            
+            if (charts.features) {
+                charts.features.destroy();
+            }
+
+            charts.features = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: modelFeatures.map(row => row.Feature),
+                    datasets: [{
+                        label: 'Importance',
+                        data: modelFeatures.map(row => row.Importance),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Feature Importance'
+                            },
+                            beginAtZero: true
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Features'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
