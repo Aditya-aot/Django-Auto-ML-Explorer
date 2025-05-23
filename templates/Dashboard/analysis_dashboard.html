@@ -1,0 +1,340 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhanced CSV Data Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+
+  #attributeChart {
+    max-width: 400px;
+    max-height: 400px;
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: block;
+  }
+
+
+
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #f5f6fa; }
+    nav {
+      background: #2c3e50; color: white; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    nav button {
+      background: #3498db; color: white; border: none; padding: 0.5rem 1rem;
+      margin-left: 10px; border-radius: 5px; cursor: pointer;
+    }
+    .container { max-width: 1200px; margin: 2rem auto; padding: 1rem; }
+    .section {
+      background: white; padding: 1.5rem; margin-bottom: 2rem;
+      border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 { border-bottom: 2px solid #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    table {
+      width: 100%; border-collapse: collapse; overflow-x: auto;
+      display: block;
+    }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: center; white-space: nowrap; }
+    th { background: #2c3e50; color: white; }
+    .badge {
+      padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: bold;
+      color: white; display: inline-block; margin: 5px;
+    }
+    .badge-int64 { background-color: #2980b9; }
+    .badge-object { background-color: #27ae60; }
+    .badge-float64 { background-color: #8e44ad; }
+    canvas { max-width: 100%; margin-top: 1rem; }
+    select { padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem; }
+    .scroll-container { overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+
+     <a href="/">  <nav> Model Master </nav> </a>
+<nav>
+   
+  <h1>📊 Enhanced CSV Dashboard</h1>
+  
+  <div>
+    <button onclick="scrollToSection('summary')">Summary</button>
+    <button onclick="scrollToSection('missing')">Missing</button>
+    <button onclick="scrollToSection('types')">Types</button>
+    <button onclick="scrollToSection('correlation')">Correlation</button>
+    <button onclick="scrollToSection('attributes')">Attributes</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div id="summary" class="section">
+    <h2>📘 Summary Statistics</h2>
+    <div class="scroll-container" id="summaryTable"></div>
+  </div>
+
+  <div id="missing" class="section">
+    <h2>🧩 Missing Data Overview</h2>
+    <select id="missingSelector">
+      <option value="count">Missing Count</option>
+      <option value="percentage">Missing Percentage</option>
+    </select>
+    <canvas id="missingChart"></canvas>
+  </div>
+
+  <div id="types" class="section">
+    <h2>🔢 Data Types</h2>
+    <div id="dataTypesBadges"></div>
+  </div>
+
+  <div id="correlation" class="section">
+    <h2>📈 Correlation Matrix</h2>
+    <div id="correlationTable"></div>
+  </div>
+
+  <div id="attributes" class="section">
+    <h2>🔍 Attribute Distribution</h2>
+    <select id="featureSelector"></select>
+    <canvas id="attributeChart"></canvas>
+  </div>
+
+<div id="ollama" class="section">
+  <h2>🧠 AI Insights by Ollama</h2>
+  <div id="ollamaInsights" style="white-space: pre-wrap; line-height: 1.6; background: #fdfdfd; padding: 1rem; border-left: 4px solid #2980b9; border-radius: 8px;"></div>
+</div>
+
+
+</div>
+
+<script>
+const base = "{% static 'csv/csv data analysis/' %}";
+const files = {
+  summary: base + "summary_statistics.csv",
+  missingCount: base + "missing_values.csv",
+  missingPercentage: base + "missing_percentage.csv",
+  dataTypes: base + "data_types.csv",
+  correlation: base + "correlation_matrix.csv",
+  attributes: base + "attribute_summary.csv" ,
+   ollama: base + "ollama_analyse.csv"   // <-- NEW ENTRY
+};
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+async function fetchCSV(file) {
+  const res = await fetch(file); return await res.text();
+}
+
+function parseCSV(text) {
+  const [headerLine, ...lines] = text.trim().split("\n");
+  const headers = headerLine.split(",");
+  return lines.map(l => {
+    const values = l.split(",");
+    return Object.fromEntries(headers.map((h, i) => [h, values[i]]));
+  });
+}
+
+function renderTable(data, containerId) {
+  const keys = Object.keys(data[0]);
+  let html = `<table><thead><tr>${keys.map(k => `<th>${k}</th>`).join('')}</tr></thead><tbody>`;
+  data.forEach(row => {
+    html += `<tr>${keys.map(k => `<td>${row[k]}</td>`).join('')}</tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById(containerId).innerHTML = html;
+}
+
+async function loadSummary() {
+  const data = parseCSV(await fetchCSV(files.summary));
+  renderTable(data, "summaryTable");
+}
+
+async function loadMissing() {
+  const countText = await fetchCSV(files.missingCount);
+  const percentText = await fetchCSV(files.missingPercentage);
+  const countRows = parseCSV(countText);
+  const percentRows = parseCSV(percentText);
+
+  function drawChart(type) {
+    const data = type === "count" ? countRows : percentRows;
+    const valueKey = Object.keys(data[0])[1];  // e.g., "MissingCount" or "MissingPercentage"
+    const labels = data.map(row => row.Feature || Object.keys(row)[0]);
+    const values = data.map(row => +row[valueKey]);
+
+    const allZero = values.every(v => v === 0);
+
+    const canvas = document.getElementById("missingChart");
+    const ctx = canvas.getContext("2d");
+
+    // Remove previous message
+    const oldMsg = document.getElementById("missing-msg");
+    if (oldMsg) oldMsg.remove();
+
+    if (window.missingChartInstance) window.missingChartInstance.destroy();
+
+    if (allZero) {
+      canvas.style.display = "none";
+      canvas.insertAdjacentHTML('beforebegin',
+        `<p id="missing-msg" style="color:green;">✅ No missing values in dataset</p>`);
+    } else {
+      canvas.style.display = "block";
+      window.missingChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: type === "count" ? "Missing Count" : "Missing Percentage",
+            data: values,
+            backgroundColor: "#e67e22"
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: { enabled: true }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+  }
+
+  drawChart("count");
+
+  document.getElementById("missingSelector").onchange = e => drawChart(e.target.value);
+}
+
+
+async function loadDataTypes() {
+  const text = await fetchCSV(files.dataTypes);
+  const lines = text.trim().split('\n').slice(1); // skip header
+  let html = "";
+  lines.forEach(line => {
+    const [feature, dtype] = line.split(",");
+    if (!feature || !dtype) return;
+    const cls = dtype.includes("int") ? "badge-int64"
+              : dtype.includes("float") ? "badge-float64"
+              : "badge-object";
+    html += `<span class="badge ${cls}">${feature.trim()}: ${dtype.trim()}</span>`;
+  });
+  document.getElementById("dataTypesBadges").innerHTML = html || "<p>No data types found.</p>";
+}
+
+async function loadCorrelation() {
+  const data = parseCSV(await fetchCSV(files.correlation));
+  const headers = Object.keys(data[0]);
+  const html = ['<table><thead><tr><th></th>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>'];
+
+  for (let row of data) {
+    const rowName = row[headers[0]];
+    html.push('<tr><th>' + rowName + '</th>');
+    headers.forEach(col => {
+      const val = parseFloat(row[col]);
+      const intensity = Math.abs(val);
+      const color = `rgba(52, 152, 219, ${intensity})`;
+      html.push(`<td style="background:${color}; color:${intensity > 0.5 ? '#fff' : '#000'}">${val.toFixed(2)}</td>`);
+    });
+    html.push('</tr>');
+  }
+  html.push('</tbody></table>');
+  document.getElementById("correlationTable").innerHTML = html.join('');
+}
+
+
+async function loadAttributes() {
+  const text = await fetchCSV(files.attributes);
+  const lines = text.trim().split('\n');
+  const [header, ...rows] = lines;
+  const [featureKey, attrKey, countKey] = header.split(",").map(h => h.trim());
+
+  const data = rows.map(line => {
+    const parts = line.split(",");
+    return {
+      Feature: parts[0]?.trim(),
+      Attribute: parts[1]?.trim(),
+      Count: parseInt(parts[2]) || 0
+    };
+  });
+
+  // Group features
+  const features = [...new Set(data.map(d => d.Feature))];
+  const selector = document.getElementById("featureSelector");
+  selector.innerHTML = features.map(f => `<option value="${f}">${f}</option>`).join("");
+
+  const canvas = document.getElementById("attributeChart");
+  const ctx = canvas.getContext("2d");
+  let chart;
+
+  function render(feature) {
+    const filtered = data.filter(d => d.Feature === feature);
+    const labels = filtered.map(d => d.Attribute);
+    const values = filtered.map(d => d.Count);
+
+    // Destroy previous chart if exists
+    if (chart) chart.destroy();
+
+    // Only render if data exists
+    if (values.every(v => v === 0)) {
+      canvas.style.display = "none";
+      canvas.insertAdjacentHTML('beforebegin', "<p>No data available for selected feature.</p>");
+      return;
+    } else {
+      canvas.style.display = "block";
+    }
+
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: [
+            "#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#f1c40f",
+            "#e67e22", "#e74c3c", "#95a5a6", "#34495e", "#7f8c8d"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'right' },
+          tooltip: { enabled: true }
+        }
+      }
+    });
+  }
+
+  render(features[0]);
+  selector.addEventListener("change", e => render(e.target.value));
+}
+
+async function loadOllamaInsights() {
+  const text = await fetchCSV(files.ollama);
+  const cleanText = text
+    .replaceAll('"', '')     // remove stray quotes
+    .replaceAll('""', '')    // remove empty quotes
+    .replaceAll('\n\n', '\n') // condense double breaks
+    .trim();
+
+  const container = document.getElementById("ollamaInsights");
+  container.textContent = cleanText || "No insights available.";
+}
+
+window.onload = function () {
+  loadSummary();
+  loadMissing();
+  loadDataTypes();
+  loadCorrelation();
+  loadAttributes();
+  loadOllamaInsights(); // <- Add this
+};
+</script>
+
+</body>
+</html>

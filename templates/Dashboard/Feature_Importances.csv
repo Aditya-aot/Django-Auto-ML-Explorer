@@ -1,0 +1,49 @@
+Model,Feature,Importance
+Random Forest,title,0.11873731499332825
+Random Forest,country,0.005627332074214293
+Random Forest,location,0.11324930572355354
+Random Forest,building_construction_year,0.05409197443788342
+Random Forest,building_total_floors,0.018753494890929045
+Random Forest,apartment_floor,0.01654609006261658
+Random Forest,apartment_rooms,0.011986921010303266
+Random Forest,apartment_bedrooms,0.0050132124292260735
+Random Forest,apartment_bathrooms,0.006205801647769626
+Random Forest,apartment_total_area,0.11112861084385742
+Random Forest,price_in_USD,0.046085106081589625
+Random Forest,url,0.4925748358047289
+Decision Tree,title,0.11980404549032686
+Decision Tree,country,0.003439595341318986
+Decision Tree,location,0.11622534668615107
+Decision Tree,building_construction_year,0.060777688049038936
+Decision Tree,building_total_floors,0.017687939501933227
+Decision Tree,apartment_floor,0.009921218392540137
+Decision Tree,apartment_rooms,0.011759962121475629
+Decision Tree,apartment_bedrooms,0.003006534530869263
+Decision Tree,apartment_bathrooms,0.007275356048072005
+Decision Tree,apartment_total_area,0.10548485163010796
+Decision Tree,price_in_USD,0.04504572351283769
+Decision Tree,url,0.4995717386953284
+Extra Trees Regressor,title,0.08207622823451116
+Extra Trees Regressor,country,0.1940844375999413
+Extra Trees Regressor,location,0.05556165670768142
+Extra Trees Regressor,building_construction_year,0.09930780774421605
+Extra Trees Regressor,building_total_floors,0.04004345795541682
+Extra Trees Regressor,apartment_floor,0.020533983388329475
+Extra Trees Regressor,apartment_rooms,0.03711746255758083
+Extra Trees Regressor,apartment_bedrooms,0.018730674096265255
+Extra Trees Regressor,apartment_bathrooms,0.013959579933629255
+Extra Trees Regressor,apartment_total_area,0.09946057668486187
+Extra Trees Regressor,price_in_USD,0.03938029397088414
+Extra Trees Regressor,url,0.29974384112668245
+XGB Regressor,title,0.051553431898355484
+XGB Regressor,country,0.477509081363678
+XGB Regressor,location,0.06745672225952148
+XGB Regressor,building_construction_year,0.03918705880641937
+XGB Regressor,building_total_floors,0.023356903344392776
+XGB Regressor,apartment_floor,0.026263725012540817
+XGB Regressor,apartment_rooms,0.035737112164497375
+XGB Regressor,apartment_bedrooms,0.07150717824697495
+XGB Regressor,apartment_bathrooms,0.02727123722434044
+XGB Regressor,apartment_total_area,0.05760025978088379
+XGB Regressor,price_in_USD,0.01980140432715416
+XGB Regressor,url,0.10275587439537048

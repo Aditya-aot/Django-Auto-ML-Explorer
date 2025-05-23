@@ -1,0 +1,17 @@
+Model,Feature,Importance
+Random Forest,vhigh,0.26987857583181923
+Random Forest,vhigh.1,0.27826573360106793
+Random Forest,2.1,0.2252459845188796
+Random Forest,small,0.22660970604823327
+Decision Tree,vhigh,0.21661274568793182
+Decision Tree,vhigh.1,0.23286230364891625
+Decision Tree,2.1,0.29485833972472325
+Decision Tree,small,0.2556666109384287
+Extra Trees Regressor,vhigh,0.2602768904211181
+Extra Trees Regressor,vhigh.1,0.30594978688300173
+Extra Trees Regressor,2.1,0.3192286755454965
+Extra Trees Regressor,small,0.11454464715038365
+XGB Regressor,vhigh,0.237399160861969
+XGB Regressor,vhigh.1,0.2596363127231598
+XGB Regressor,2.1,0.2838866114616394
+XGB Regressor,small,0.21907781064510345

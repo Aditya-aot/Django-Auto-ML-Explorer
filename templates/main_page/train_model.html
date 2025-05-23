@@ -1,0 +1,19 @@
+<h3>Training Setup Summary</h3>
+
+<p><strong>X Targets:</strong> {{ x_targets|join:", " }}</p>
+<p><strong>Y Target:</strong> {{ y_target }}</p>
+
+<h4>Data Preview</h4>
+{{ data_preview|safe }}
+
+<!--  -->
+<h3>Cleaned & Encoded Dataset</h3>
+
+<p><strong>X Targets:</strong> {{ x_targets|join:", " }}</p>
+<p><strong>Y Target:</strong> {{ y_target }}</p>
+
+<p><strong>Training Set Shape:</strong> {{ train_shape }}</p>
+<p><strong>Test Set Shape:</strong> {{ test_shape }}</p>
+
+<h4>Preview of Cleaned Data:</h4>
+{{ data_preview|safe }}

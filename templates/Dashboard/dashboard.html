@@ -1,0 +1,238 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Model Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #f8f9fa, #e0e0e0);
+      color: #333;
+    }
+    nav {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background: #2c3e50;
+      color: white;
+    }
+    canvas {
+      margin-top: 1rem;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+ <a href="/">  <nav> Model Master </nav> </a>
+<nav>📊 AI Model Dashboard</nav>
+
+<div class="container">
+  <div class="section">
+    <h2>📈 Model Metrics</h2>
+    <div id="metricsTable"></div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Performance Comparison</h2>
+    <label for="metricSelector">Select Metric:</label>
+    <select id="metricSelector">
+      <option value="R² Score">R² Score</option>
+      <option value="MSE">MSE</option>
+      <option value="RMSE">RMSE</option>
+      <option value="MAE">MAE</option>
+      <option value="Training Time (s)">Training Time (s)</option>
+    </select>
+    <canvas id="metricChart"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>🧠 Feature Importances</h2>
+    <label for="modelSelector">Select Model:</label>
+    <select id="modelSelector"></select>
+    <canvas id="featureChart"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>📊 Actual vs Predicted</h2>
+    <label for="avpSelector">Select Model:</label>
+    <select id="avpSelector"></select>
+    <canvas id="avpChart"></canvas>
+  </div>
+</div>
+
+<script>
+const metricsPath = "{% static 'csv/metrics.csv' %}" + "?v=" + new Date().getTime();
+const featuresPath = "{% static 'csv/Feature_Importances.csv' %}" + "?v=" + new Date().getTime();
+const actualPredictedPath = "{% static 'csv/Actual_vs_Predicted.csv' %}" + "?v=" + new Date().getTime();
+
+
+let metricChartInstance = null;
+let featureChartInstance = null;
+let avpChartInstance = null;
+
+async function fetchCSV(file) {
+  try {
+    const res = await fetch(file);
+    if (!res.ok) throw new Error(`Failed to load ${file}`);
+    return await res.text();
+  } catch (err) {
+    console.error("Fetch error:", err);
+    return "";
+  }
+}
+
+function parseCSV(text) {
+  const [headerLine, ...lines] = text.trim().split("\n");
+  const headers = headerLine.split(",").map(h => h.trim());
+  return lines.map(line => {
+    const values = line.split(",");
+    return Object.fromEntries(headers.map((h, i) => [h, values[i]]));
+  });
+}
+
+function createTable(data, containerId, columns) {
+  let html = "<table><thead><tr>" + columns.map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
+  data.forEach(row => {
+    html += "<tr>" + columns.map(h => `<td>${row[h]}</td>`).join("") + "</tr>";
+  });
+  html += "</tbody></table>";
+  document.getElementById(containerId).innerHTML = html;
+}
+
+function createBarChart(canvasId, label, labels, values, color) {
+  const ctx = document.getElementById(canvasId).getContext("2d");
+  if (Chart.getChart(canvasId)) Chart.getChart(canvasId).destroy();
+  return new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label,
+        data: values,
+        backgroundColor: color + "aa",
+        borderColor: color,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: { enabled: true },
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+function updateMetricChart(metric, data) {
+  const models = data.map(m => m.Model);
+  const values = data.map(m => +m[metric]);
+  if (metricChartInstance) metricChartInstance.destroy();
+  metricChartInstance = createBarChart("metricChart", metric, models, values, "#3498db");
+}
+
+function createFeatureChart(model, allData) {
+  const data = allData.filter(f => f.Model === model);
+  const labels = data.map(d => d.Feature);
+  const values = data.map(d => +d.Importance);
+  if (featureChartInstance) featureChartInstance.destroy();
+  featureChartInstance = createBarChart("featureChart", "Feature Importance", labels, values, "#8e44ad");
+}
+
+function createLineChart(model, allData) {
+  const data = allData.filter(d => d.Model === model);
+  const labels = data.map(d => d.Index);
+  const actuals = data.map(d => +d.Actual);
+  const predicteds = data.map(d => +d.Predicted);
+  if (avpChartInstance) avpChartInstance.destroy();
+  const ctx = document.getElementById("avpChart").getContext("2d");
+  avpChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: "Actual", data: actuals, borderColor: "#2ecc71", fill: false },
+        { label: "Predicted", data: predicteds, borderColor: "#e74c3c", fill: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { tooltip: { enabled: true } },
+      scales: { y: { beginAtZero: false } }
+    }
+  });
+}
+
+window.onload = async function () {
+  // Load metrics
+  const metrics = parseCSV(await fetchCSV(metricsPath));
+  createTable(metrics, "metricsTable", ["Model", "Training Time (s)", "MSE", "RMSE", "MAE", "R² Score"]);
+
+  const metricSelector = document.getElementById("metricSelector");
+  updateMetricChart(metricSelector.value, metrics);
+  metricSelector.addEventListener("change", () => updateMetricChart(metricSelector.value, metrics));
+
+  // Load feature importances
+  const importances = parseCSV(await fetchCSV(featuresPath));
+  const modelList = [...new Set(importances.map(i => i.Model))];
+  const modelSelector = document.getElementById("modelSelector");
+  modelSelector.innerHTML = modelList.map(m => `<option value="${m}">${m}</option>`).join("");
+  modelSelector.addEventListener("change", () => createFeatureChart(modelSelector.value, importances));
+  createFeatureChart(modelList[0], importances);
+
+  // Load actual vs predicted
+  const avp = parseCSV(await fetchCSV(actualPredictedPath));
+  const avpModels = [...new Set(avp.map(r => r.Model))];
+  const avpSelector = document.getElementById("avpSelector");
+  avpSelector.innerHTML = avpModels.map(m => `<option value="${m}">${m}</option>`).join("");
+  avpSelector.addEventListener("change", () => createLineChart(avpSelector.value, avp));
+  createLineChart(avpModels[0], avp);
+};
+</script>
+
+</body>
+</html>

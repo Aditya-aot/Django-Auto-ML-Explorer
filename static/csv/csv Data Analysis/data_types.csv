@@ -1,0 +1,13 @@
+,DataType
+year_of_reference,int64
+month_of_reference,object
+fipe_code,object
+authentication,object
+brand,object
+model,object
+fuel,object
+gear,object
+engine_size,float64
+year_model,int64
+avg_price_brl,int64
+age_years,float64
