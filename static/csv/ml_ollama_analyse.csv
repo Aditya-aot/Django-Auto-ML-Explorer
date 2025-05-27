@@ -1,0 +1,5 @@
+Insight
+"👁️ Explore the best ML/AI models and compare to your current model."
+"Firstly, I will find out how well a random forest algorithm can work with your given data and what its strengths and weaknesses are. A random forest model is a powerful tool for dealing with imbalanced datasets. The model can adapt to different class labels and reduce overfitting issues by using more than one feature per split. It's also a good fit for high-dimensional, multi-class data where some features are quite rare."
+"Then I will compare the performance of your current model with random forest and the top recommendation from those models: Random Forest."
+"As a result, I will recommend the Random Forest algorithm as it outperforms the current model and can handle imbalanced datasets well."

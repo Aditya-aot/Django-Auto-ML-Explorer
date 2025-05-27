@@ -100,12 +100,17 @@
     <canvas id="avpChart"></canvas>
   </div>
 </div>
+ 
+<div id="ollama" class="section">
+  <h2>🧠 AI Insights by Ollama</h2>
+  <div id="ollamaInsights" style="white-space: pre-wrap; line-height: 1.6; background: #fdfdfd; padding: 1rem; border-left: 4px solid #2980b9; border-radius: 8px;"></div>
+</div>
 
 <script>
 const metricsPath = "{% static 'csv/metrics.csv' %}" + "?v=" + new Date().getTime();
 const featuresPath = "{% static 'csv/Feature_Importances.csv' %}" + "?v=" + new Date().getTime();
 const actualPredictedPath = "{% static 'csv/Actual_vs_Predicted.csv' %}" + "?v=" + new Date().getTime();
-
+const ollama = "{% static 'csv/ml_ollama_analyse.csv' %}" + "?v=" + new Date().getTime();
 
 let metricChartInstance = null;
 let featureChartInstance = null;
@@ -231,6 +236,17 @@ window.onload = async function () {
   avpSelector.innerHTML = avpModels.map(m => `<option value="${m}">${m}</option>`).join("");
   avpSelector.addEventListener("change", () => createLineChart(avpSelector.value, avp));
   createLineChart(avpModels[0], avp);
+
+// Load Ollama Insights
+  // Load Ollama insights
+  const ollamaText = await fetchCSV(ollama);
+  const lines = ollamaText.split('\n').slice(1); // skip header
+  const cleanLines = lines.map(l => l.replace(/^"|"$/g, "").trim()).filter(l => l);
+
+  const container = document.getElementById("ollamaInsights");
+  container.innerHTML = cleanLines.map(line => `• ${line}`).join("<br><br>");
+
+
 };
 </script>
 

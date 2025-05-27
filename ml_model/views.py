@@ -131,8 +131,8 @@ def analysis_dashboard(request) :
 
             # Collect all CSV content
             data_summary = {}
-            for csv_file in ["summary_statistics.csv", "missing_values.csv", "missing_percentage.csv", 
-                            "data_types.csv", "correlation_matrix.csv", "attribute_summary.csv"]:
+            for csv_file in ["summary_statistics.csv",
+                            "correlation_matrix.csv", ]:
                 path = os.path.join(analysis_dir, csv_file)
                 if os.path.exists(path):
                     df_temp = pd.read_csv(path)
@@ -155,7 +155,8 @@ def analysis_dashboard(request) :
                             "http://localhost:11434/api/generate",
                             json={
                                 "model": "mistral",
-                                "prompt": "Summarize a dataset with missing values and correlations.",
+                                #  "model": "tinydolphin",
+                                "prompt": ollama_prompt,
                                 "stream": False
                             }
                         )
@@ -182,7 +183,7 @@ def analysis_dashboard(request) :
         context = {"columns"  : column_names ,
                    'csv_file': file_name,
                    'save_path':save_path,
-                   'ollama_result' : ollama_text,
+                #    'ollama_result' : ollama_text,
                    
                    }
 
@@ -430,9 +431,10 @@ def train_model(request):
         if best['Training Time (s)'] <= results_df['Training Time (s)'].median():
             reasons.append("fast training time")
 
-
-        print(f"\n🚀 Recommended Best Model: {best['Model']}")
-        print("Why it's recommended:", ", ".join(reasons) + ".")
+        best_model = (f"\n🚀 Recommended Best Model: {best['Model']}")
+        why_best = ("Why it's recommended:", ", ".join(reasons) + ".")
+        print(best_model)
+        print(why_best)
 
         print("\n📁 All CSV files have been generated successfully!")
         print("Files created:")
@@ -442,8 +444,64 @@ def train_model(request):
 
         # recommend_best_model(results_df)        
 
-#  now we work on AI ###################################################################################
-#  now we work on AI ###################################################################################
+#  now we end work on AI ###################################################################################
+#  now we start ollama on AI ###################################################################################
+        try:
+            # Path to your CSV data analysis folder
+            analysis_file = "C:/Users/adity/projects/dataset_analysis/static/csv"
+
+            # Collect all CSV content
+            data_summary = {}
+            for csv_file in [ "metrics.csv" ]:
+                path = os.path.join(analysis_file, csv_file)
+                if os.path.exists(path):
+                    df_temp = pd.read_csv(path)
+                    data_summary[csv_file] = df_temp.to_dict(orient='records')
+                else:
+                    data_summary[csv_file] = "File not found."
+
+            # Convert collected data into prompt
+            ollama_prompt = f"""
+            You are a data scientist. Here are CSV summaries of a trained machine learning model on dataset.
+            this ml models inclue Random Forest ,Bagging Regressor ,Decision Tree ,Extra Trees Regressor ,XGB Regressor ,Hist Gradient Boosting 
+            and tell whcih is best.
+            Format your response as a structured summary
+
+            Data Summary:
+            {json.dumps(data_summary, indent=2)}
+            """
+            pro = ""
+            prompt = f"{best_model}\n{why_best}"
+
+            # Call local Ollama API
+            response = requests.post(
+                            "http://localhost:11434/api/generate",
+                            json={
+                                # "model": "tinydolphin",
+                                 "model": "mistral",
+                                "prompt":  prompt  ,
+                                # "prompt": "this ml models inclue Random Forest ,Bagging Regressor ,Decision Tree ,Extra Trees Regressor ,XGB Regressor ,Hist Gradient Boosting and tell whcih is best and why.",
+                                "stream": False
+                            }
+                        )
+
+
+            result = response.json()
+            ollama_text = result.get("response", "Ollama returned no response.")
+
+            # Save Ollama analysis
+            with open(os.path.join(analysis_file, "ml_ollama_analyse.csv"), "w", encoding="utf-8") as f:
+                f.write("Insight\n")
+                for line in ollama_text.split('\n'):
+                    if line.strip():
+                        f.write(f"\"{line.strip()}\"\n")
+
+            print("Ollama analysis saved to 'ml_ollama_analyse.csv'.")
+
+        except Exception as e:
+            print(f"Error running Ollama analysis: {e}")
+
+
 
     # Store results as JSON in session to access in dashboard
     request.session['model_results'] = results_df.to_dict(orient='records')

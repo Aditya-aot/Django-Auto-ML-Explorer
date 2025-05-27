@@ -1,17 +1,45 @@
 Model,Feature,Importance
-Random Forest,vhigh,0.26987857583181923
-Random Forest,vhigh.1,0.27826573360106793
-Random Forest,2.1,0.2252459845188796
-Random Forest,small,0.22660970604823327
-Decision Tree,vhigh,0.21661274568793182
-Decision Tree,vhigh.1,0.23286230364891625
-Decision Tree,2.1,0.29485833972472325
-Decision Tree,small,0.2556666109384287
-Extra Trees Regressor,vhigh,0.2602768904211181
-Extra Trees Regressor,vhigh.1,0.30594978688300173
-Extra Trees Regressor,2.1,0.3192286755454965
-Extra Trees Regressor,small,0.11454464715038365
-XGB Regressor,vhigh,0.237399160861969
-XGB Regressor,vhigh.1,0.2596363127231598
-XGB Regressor,2.1,0.2838866114616394
-XGB Regressor,small,0.21907781064510345
+Random Forest,year_of_reference,0.0
+Random Forest,month_of_reference,0.00021428024567231587
+Random Forest,fipe_code,0.3718211608181455
+Random Forest,authentication,0.15151764740172172
+Random Forest,brand,0.12392443545448778
+Random Forest,model,0.01222618895980947
+Random Forest,fuel,0.01980642687692071
+Random Forest,gear,0.00029729066171475506
+Random Forest,engine_size,0.21407782879202308
+Random Forest,year_model,0.05297147072285154
+Random Forest,age_years,0.05314327006665333
+Decision Tree,year_of_reference,0.0
+Decision Tree,month_of_reference,3.6081351092580134e-06
+Decision Tree,fipe_code,0.3846783609620912
+Decision Tree,authentication,0.14535604157843562
+Decision Tree,brand,0.17321259654791024
+Decision Tree,model,0.004679838006758765
+Decision Tree,fuel,8.695378482545538e-05
+Decision Tree,gear,2.103862586374846e-05
+Decision Tree,engine_size,0.1877588239910607
+Decision Tree,year_model,0.09996983892527278
+Decision Tree,age_years,0.0042328994426722106
+Extra Trees Regressor,year_of_reference,0.0
+Extra Trees Regressor,month_of_reference,0.00016052002931018605
+Extra Trees Regressor,fipe_code,0.17722003484577925
+Extra Trees Regressor,authentication,0.10145409209017724
+Extra Trees Regressor,brand,0.12521855729073564
+Extra Trees Regressor,model,0.046359510830348574
+Extra Trees Regressor,fuel,0.04879015485571618
+Extra Trees Regressor,gear,0.03223723612788636
+Extra Trees Regressor,engine_size,0.26284328260848633
+Extra Trees Regressor,year_model,0.09711688876244491
+Extra Trees Regressor,age_years,0.10859972255911528
+XGB Regressor,year_of_reference,0.0
+XGB Regressor,month_of_reference,0.00034796565887518227
+XGB Regressor,fipe_code,0.21708831191062927
+XGB Regressor,authentication,0.05992585048079491
+XGB Regressor,brand,0.09297070652246475
+XGB Regressor,model,0.054874155670404434
+XGB Regressor,fuel,0.11237382888793945
+XGB Regressor,gear,0.03186381980776787
+XGB Regressor,engine_size,0.3375653028488159
+XGB Regressor,year_model,0.09299010783433914
+XGB Regressor,age_years,0.0

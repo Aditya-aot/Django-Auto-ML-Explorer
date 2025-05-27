@@ -1,97 +1,141 @@
 Feature,Attribute,Count
-year_of_reference,2022,290275
-month_of_reference,November,24366
-month_of_reference,December,24364
-month_of_reference,October,24333
-month_of_reference,September,24324
-month_of_reference,August,24226
-month_of_reference,March,24168
-month_of_reference,July,24165
-month_of_reference,June,24123
-month_of_reference,February,24094
-month_of_reference,May,24057
-fipe_code,039001-1,443
-fipe_code,067001-4,423
-fipe_code,040002-5,386
-fipe_code,035014-1,292
-fipe_code,027024-5,282
-fipe_code,005017-2,264
-fipe_code,004141-6,264
-fipe_code,028015-1,252
-fipe_code,024101-6,249
-fipe_code,001027-8,240
-authentication,3r6c277cnqcb,2
-authentication,gb76cyvp29j4,2
-authentication,yh9pvzxm1z18,1
-authentication,2jn0vw4k9jp,1
-authentication,6ws0g0flgdfx,1
-authentication,7vzyfwz4cqj4,1
-authentication,9vpjbm03pfnc,1
-authentication,v002c2tclc18,1
-authentication,xtzj5l06w15h,1
-authentication,vwmrywl5qs,1
-brand,GM - Chevrolet,28179
-brand,VW - VolksWagen,28142
-brand,Fiat,26563
-brand,Ford,24150
-brand,Mercedes-Benz,17470
-brand,Renault,15194
-brand,Audi,12168
-brand,Peugeot,11132
-brand,Toyota,10309
-brand,Mitsubishi,10182
-model,Buggy/M-8/M-8 Long 1.6,443
-model,Buggy Plus 1.6 8V,423
-model,Buggy 1.6/ TST/ RS 1.6 4-Lug.,386
-model,911 Turbo Coupe 3.6/3.8 (991/992),292
-model,Forester 2.0/2.0 S/2.0 ES 4x4 Aut.,282
-model,Santana 1.8 Mi,264
-model,"Corvette 5.7/ 6.0, 6.2 Targa/Stingray",264
-model,Jimny Wide/ Jimny/4ALL 1.3 16V,252
-model,Partner Furgão 1.6 16V/ 1.6 16V Flex 3p,249
-model,S-600 L/ L Classic/ Wagon Classic 6.0,240
-fuel,Gasoline,238774
-fuel,Diesel,47004
-fuel,Alcohol,4489
-gear,manual,210283
-gear,automatic,79984
-engine_size,2.0,51604
-engine_size,1.6,47046
-engine_size,1.8,26413
-engine_size,1.0,23670
-engine_size,3.0,18557
-engine_size,2.5,13023
-engine_size,1.4,12134
-engine_size,1.5,11285
-engine_size,2.8,10143
-engine_size,2.2,8448
-year_model,2015,12492
-year_model,2012,12155
-year_model,2014,12103
-year_model,2016,11651
-year_model,2023,11632
-year_model,2013,11623
-year_model,2018,11447
-year_model,2017,11136
-year_model,2011,11022
-year_model,2019,10709
-avg_price_brl,70120,24
-avg_price_brl,20320,24
-avg_price_brl,10521,24
-avg_price_brl,19640,23
-avg_price_brl,14521,23
-avg_price_brl,26320,22
-avg_price_brl,24854,22
-avg_price_brl,30230,21
-avg_price_brl,24120,21
-avg_price_brl,60230,21
-age_years,8.0,12492
-age_years,11.0,12155
-age_years,9.0,12103
-age_years,7.0,11651
-age_years,0.0,11632
-age_years,10.0,11623
-age_years,5.0,11447
-age_years,6.0,11136
-age_years,12.0,11022
-age_years,4.0,10708
+title,"1 room apartment 24 m² in poselenie Sosenskoe, Russia",486
+title,"2 room apartment 40 m² in poselenie Sosenskoe, Russia",369
+title,"1 room apartment 24 m² in Kommunarka, Russia",343
+title,"Apartment  in Akarca, Turkey",341
+title,"1 room apartment 21 m² in poselenie Sosenskoe, Russia",332
+title,"1 room apartment 23 m² in poselenie Sosenskoe, Russia",296
+title,"3 room apartment 110 m² in Alanya, Turkey",285
+title,"2 room apartment 55 m² in Alanya, Turkey",239
+title,"1 room apartment 36 m² in poselenie Sosenskoe, Russia",215
+title,"3 room apartment 100 m² in Alanya, Turkey",214
+country,Turkey,25724
+country,Hungary,22325
+country,Russia,18491
+country,Spain,14939
+country,Belarus,14217
+country,Greece,12404
+country,Montenegro,10702
+country,Italy,3335
+country,Georgia,3292
+country,UAE,2675
+location,"Mediterranean Region, Sekerhane Mahallesi, Alanya, Turkey",7244
+location,"Central Federal District, poselenie Sosenskoe, Novomoskovsky Administrative Okrug, Russia",7023
+location,"Minsk, Belarus",4535
+location,"Central Hungary, Budapest, Komarom-Esztergom, Hungary",4366
+location,"Kommunarka, Central Federal District, poselenie Sosenskoe, Novomoskovsky Administrative Okrug, Russia",2681
+location,"Transdanubia, Budapest, Komarom-Esztergom, Hungary",2527
+location,"Dubai, UAE",2477
+location,Montenegro,2190
+location,"Brest Region, Brest, Belarus",2153
+location,"Mahmutlar, Mediterranean Region, Alanya, Turkey",1874
+building_construction_year,2023.0,9038
+building_construction_year,2025.0,8544
+building_construction_year,2024.0,6001
+building_construction_year,2026.0,4490
+building_construction_year,2022.0,3812
+building_construction_year,2021.0,2949
+building_construction_year,2020.0,2670
+building_construction_year,2019.0,1418
+building_construction_year,2017.0,920
+building_construction_year,2008.0,847
+building_total_floors,1.0,10198
+building_total_floors,2.0,8209
+building_total_floors,5.0,6288
+building_total_floors,3.0,6158
+building_total_floors,4.0,4493
+building_total_floors,16.0,4357
+building_total_floors,9.0,4003
+building_total_floors,15.0,2924
+building_total_floors,12.0,2515
+building_total_floors,10.0,2151
+apartment_floor,1.0,9257
+apartment_floor,2.0,7994
+apartment_floor,3.0,6847
+apartment_floor,4.0,5385
+apartment_floor,5.0,4429
+apartment_floor,6.0,2707
+apartment_floor,8.0,2400
+apartment_floor,7.0,2276
+apartment_floor,9.0,2241
+apartment_floor,10.0,1636
+apartment_rooms,2.0,25608
+apartment_rooms,3.0,23412
+apartment_rooms,1.0,12208
+apartment_rooms,4.0,9557
+apartment_rooms,5.0,2450
+apartment_rooms,6.0,612
+apartment_rooms,7.0,139
+apartment_rooms,8.0,70
+apartment_rooms,-1.0,32
+apartment_rooms,9.0,25
+apartment_bedrooms,2.0,14433
+apartment_bedrooms,1.0,11269
+apartment_bedrooms,3.0,8550
+apartment_bedrooms,4.0,1968
+apartment_bedrooms,5.0,459
+apartment_bedrooms,6.0,141
+apartment_bedrooms,7.0,46
+apartment_bedrooms,-1.0,37
+apartment_bedrooms,8.0,22
+apartment_bedrooms,10.0,13
+apartment_bathrooms,1.0,39750
+apartment_bathrooms,2.0,13568
+apartment_bathrooms,3.0,1883
+apartment_bathrooms,4.0,506
+apartment_bathrooms,5.0,126
+apartment_bathrooms,6.0,69
+apartment_bathrooms,7.0,21
+apartment_bathrooms,10.0,12
+apartment_bathrooms,8.0,12
+apartment_bathrooms,9.0,7
+apartment_total_area,100 m²,2468
+apartment_total_area,60 m²,2425
+apartment_total_area,50 m²,2261
+apartment_total_area,55 m²,2112
+apartment_total_area,120 m²,2106
+apartment_total_area,70 m²,2044
+apartment_total_area,90 m²,1944
+apartment_total_area,110 m²,1907
+apartment_total_area,65 m²,1859
+apartment_total_area,75 m²,1837
+apartment_living_area,30 m²,888
+apartment_living_area,17 m²,698
+apartment_living_area,28 m²,639
+apartment_living_area,32 m²,625
+apartment_living_area,29 m²,612
+apartment_living_area,31 m²,554
+apartment_living_area,40 m²,540
+apartment_living_area,33 m²,539
+apartment_living_area,45 m²,513
+apartment_living_area,50 m²,506
+price_in_USD,380425.0,503
+price_in_USD,489118.0,420
+price_in_USD,326078.0,419
+price_in_USD,347817.0,366
+price_in_USD,271732.0,361
+price_in_USD,597810.0,318
+price_in_USD,163039.0,307
+price_in_USD,434771.0,290
+price_in_USD,358686.0,284
+price_in_USD,706503.0,282
+image,https://realting.com/uploads/bigSlider/9b9/e2ba64b16cdd1fd0bb86dcbd1b5fb.webp,1219
+image,https://realting.com/main/images/no-image.png,692
+image,https://realting.com/uploads/bigSlider/3f6/01a3dcc54ec83.webp,678
+image,https://realting.com/uploads/bigSlider/3c5/2bee197adb3f9d328e3813ac346cb.webp,608
+image,https://realting.com/uploads/bigSlider/591/61e3da5935315c2b0cc2f8d52a7da.webp,601
+image,https://realting.com/uploads/bigSlider/36f/99ef1f17a0f1e968993b7dac56a94.webp,526
+image,https://realting.com/uploads/bigSlider/116/c43275284f2074738e2e6d4498d74.webp,505
+image,https://realting.com/uploads/bigSlider/f82/8ab7881434bb7.webp,493
+image,https://realting.com/uploads/bigSlider/97a/c8854934b4e57.webp,456
+image,https://realting.com/uploads/bigSlider/b43/2eb23cca8dc25.webp,400
+url,https://realting.com/property-for-sale/turkey/inest-homes/1766770,1
+url,https://realting.com/property-for-sale/spain/deniz-estate/1706351,1
+url,https://realting.com/property-for-sale/spain/estate-barcelona-premium/838433,1
+url,https://realting.com/property-for-sale/spain/mercury-group/1511497,1
+url,https://realting.com/property-for-sale/spain/espanatour/1569709,1
+url,https://realting.com/property-for-sale/spain/mercury-group/1725564,1
+url,https://realting.com/property-for-sale/spain/bennecke-real-estate-s-l/1414811,1
+url,https://realting.com/property-for-sale/spain/western-trade-group-spain/450293,1
+url,https://realting.com/property-for-sale/spain/gestalihome/1401628,1
+url,https://realting.com/property-for-sale/spain/mercury-group/1725339,1

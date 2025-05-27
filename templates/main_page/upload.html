@@ -1,120 +1,52 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--  
-    Document Title
-    =============================================
-    -->
     <title>Model Master | Multipurpose HTML5 Template</title>
-    <!--  
-    Favicons
-    =============================================
-    -->
-   <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-icon-57x57.png' %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-icon-60x60.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-icon-72x72.png' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-icon-76x76.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-icon-114x114.png' %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-icon-120x120.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-icon-144x144.png' %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-icon-152x152.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-icon-180x180.png' %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/favicons/android-icon-192x192.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicons/favicon-96x96.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{% static 'images/favicons/ms-icon-144x144.png' %}">
-    <meta name="theme-color" content="#ffffff">
-    <!--  
-    Stylesheets
-    =============================================
-    
-    -->
-    <!-- Default stylesheets-->
-    <link href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Template specific stylesheets-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Volkhov:400i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-    <link href="{% static 'lib/animate.css/animate.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/components-font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/et-line-font/et-line-font.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/flexslider/flexslider.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/owl.carousel/dist/assets/owl.carousel.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/owl.carousel/dist/assets/owl.theme.default.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/simple-text-rotator/simpletextrotator.css' %}" rel="stylesheet">
-    <!-- Main stylesheet and color file-->
-     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link id="color-scheme" href="{% static 'css/colors/default.css' %}" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Volkhov:400i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+    <!-- CSS CDNs -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/flexslider.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+
+    <!-- Optional: Your custom styles if needed -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/colors/default.css">
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
     <main>
-      <div class="page-loader">
-        <div class="loader">Loading...</div>
-      </div>
-      
-      
-        <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+      <div class="page-loader"><div class="loader">Loading...</div></div>
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-custom navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/">Model Master</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Model Master</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <!-- <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Home</a>
-                <ul class="dropdown-menu">
-                  <li><a href="index_mp_fullscreen_video_background.html">Default</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">One Page</a></li>
-                  <li><a href="index_agency.html">Agency</a></li>
-                  <li><a href="index_portfolio.html">Portfolio</a></li>
-                  <li><a href="index_restaurant.html">Restaurant</a></li>
-                  <li><a href="index_finance.html">Finance</a></li>
-                  <li><a href="index_landing.html">Landing Page</a></li>
-                  <li><a href="index_photography.html">Photography</a></li>
-                  <li><a href="index_shop.html">Shop</a></li>
-                </ul>
-              </li> -->
-              
-                 
-             
-              <!-- <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Shop</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Product</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="shop_product_col_3.html">3 columns</a></li>
-                      <li><a href="shop_product_col_4.html">4 columns</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="shop_single_product.html">Single Product</a></li>
-                  <li><a href="shop_checkout.html">Checkout</a></li>
-                </ul>
-              </li> -->
-           
-              <!-- <li class="dropdown"><a class="dropdown-toggle" href="documentation.html" data-toggle="dropdown">Documentation</a>
-                <ul class="dropdown-menu">
-                  <li><a href="documentation.html#contact">Contact Form</a></li>
-                  <li><a href="documentation.html#reservation">Reservation Form</a></li>
-                  <li><a href="documentation.html#mailchimp">Mailchimp</a></li>
-                  <li><a href="documentation.html#gmap">Google Map</a></li>
-                  <li><a href="documentation.html#plugin">Plugins</a></li>
-                  <li><a href="documentation.html#changelog">Changelog</a></li>
-                </ul>
-              </li> -->
-            </ul>
+            <ul class="nav navbar-nav navbar-right"></ul>
           </div>
         </div>
       </nav>
 
-      
+      <!-- Content -->
       <div class="main">
-        <section class="module bg-dark-30 about-page-header" data-background="{% static 'images/2about_bg.png' %}">
+        <section class="module bg-dark-30 about-page-header" style="background-image: url('/static/images/2about_bg.png');">
           <div class="container">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
@@ -123,225 +55,93 @@
             </div>
           </div>
         </section>
+
         <section class="module">
           <div class="container">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2">
-                <h4 class="font-alt mb-0">Select your Attributes <Br>   </h4>
+                <h4 class="font-alt mb-0">Select your Attributes</h4>
                 <hr class="divider-w mt-10 mb-20">
-                
-                
 
+                <h3>Select X and Y Targets</h3>
+                <form method="post" action="/train-model/">
+                  {% csrf_token %}
 
+                  <h4>Select X Targets (Features):</h4>
+                  {% for col in columns %}
+                    <label>
+                      <input type="checkbox" name="x_targets" value="{{ col }}" class="x-checkbox"> {{ col }}
+                    </label><br>
+                  {% endfor %}
 
+                  <h4>Select Y Target (Label):</h4>
+                  {% for col in columns %}
+                    <label>
+                      <input type="radio" name="y_target" value="{{ col }}" class="y-radio"> {{ col }}
+                    </label><br>
+                  {% endfor %}
 
-<h3>Select X and Y Targets</h3>
+                  <input type="hidden" name="csv_file" value="{{ csv_file }}">
+                  <br><input class="btn btn-primary btn-circle" type="submit" value="Submit Targets">
+                </form>
 
-<form method="post" action="/train-model/">
-    {% csrf_token %}
+                <script>
+                  const xCheckboxes = document.querySelectorAll('.x-checkbox');
+                  const yRadios = document.querySelectorAll('.y-radio');
 
-    <!-- X features -->
-    <h4>Select X Targets (Features):</h4>
-    {% for col in columns %}
-        <label>
-            <input type="checkbox" name="x_targets" value="{{ col }}" class="x-checkbox"> {{ col }}
-        </label><br>
-    {% endfor %}
+                  function updateXCheckboxes() {
+                    const selectedY = document.querySelector('.y-radio:checked')?.value;
+                    xCheckboxes.forEach(checkbox => {
+                      checkbox.disabled = (checkbox.value === selectedY);
+                    });
+                  }
 
-    <!-- Y target -->
-    <h4>Select Y Target (Label) (as there can only be one y target):</h4>
-    {% for col in columns %}
-        <label>
-            <input type="radio" name="y_target" value="{{ col }}" class="y-radio"> {{ col }}
-        </label><br>
-    {% endfor %}
+                  yRadios.forEach(radio => {
+                    radio.addEventListener('change', updateXCheckboxes);
+                  });
 
-    <input type="hidden" name="csv_file" value="{{ csv_file }}">
-
-    <br><input class="btn btn-primary btn-circle" type="submit" value="Submit Targets">
-</form>
-
-
-<script>
-    const xCheckboxes = document.querySelectorAll('.x-checkbox');
-    const yRadios = document.querySelectorAll('.y-radio');
-
-    function updateXCheckboxes() {
-        const selectedY = document.querySelector('.y-radio:checked')?.value;
-        xCheckboxes.forEach(checkbox => {
-            checkbox.disabled = (checkbox.value === selectedY);
-        });
-    }
-
-    yRadios.forEach(radio => {
-        radio.addEventListener('change', updateXCheckboxes);
-    });
-
-    updateXCheckboxes(); // On page load
-</script>
-
-
-
-
-
-
-
-
-
-
+                  updateXCheckboxes(); // On page load
+                </script>
               </div>
             </div>
           </div>
         </section>
-        <div class="module-small bg-dark">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">About Titan</h5>
-                  <p>The languages only differ in their grammar, their pronunciation and their most common words.</p>
-                  <p>Phone: +1 234 567 89 10</p>Fax: +1 234 567 89 10
-                  <p>Email:<a href="#">somecompany@example.com</a></p>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Recent Comments</h5>
-                  <ul class="icon-list">
-                    <li>Maria on <a href="#">Designer Desk Essentials</a></li>
-                    <li>John on <a href="#">Realistic Business Card Mockup</a></li>
-                    <li>Andy on <a href="#">Eco bag Mockup</a></li>
-                    <li>Jack on <a href="#">Bottle Mockup</a></li>
-                    <li>Mark on <a href="#">Our trip to the Alps</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Blog Categories</h5>
-                  <ul class="icon-list">
-                    <li><a href="#">Photography - 7</a></li>
-                    <li><a href="#">Web Design - 3</a></li>
-                    <li><a href="#">Illustration - 12</a></li>
-                    <li><a href="#">Marketing - 1</a></li>
-                    <li><a href="#">Wordpress - 16</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Popular Posts</h5>
-                  <ul class="widget-posts">
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="{% static 'images/rp-1.jpg' %}" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
-                        <div class="widget-posts-meta">23 january</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="{% static 'images/rp-2.jpg' %}" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
-                        <div class="widget-posts-meta">15 February</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+      </div>
+
+      <footer class="footer bg-dark">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">TitaN</a>, All Rights Reserved</p>
+            </div>
+            <div class="col-sm-6">
+              <div class="footer-social-links">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+                <a href="#"><i class="fa fa-skype"></i></a>
               </div>
             </div>
           </div>
         </div>
-        <hr class="divider-d">
-        <footer class="footer bg-dark">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6">
-                <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">TitaN</a>, All Rights Reserved</p>
-              </div>
-              <div class="col-sm-6">
-                <div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-      <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+      </footer>
     </main>
-    <!--  
-    JavaScripts
-    =============================================
-    -->
-    <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
-    <script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'lib/wow/dist/wow.js' %}"></script>
-    <script src="{% static 'lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js' %}"></script>
-    <script src="{% static 'lib/isotope/dist/isotope.pkgd.js' %}"></script>
-    <script src="{% static 'lib/imagesloaded/imagesloaded.pkgd.js' %}"></script>
-    <script src="{% static 'lib/flexslider/jquery.flexslider.js' %}"></script>
-    <script src="{% static 'lib/owl.carousel/dist/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'lib/smoothscroll.js' %}"></script>
-    <script src="{% static 'lib/magnific-popup/dist/jquery.magnific-popup.js' %}"></script>
-    <script src="{% static 'lib/simple-text-rotator/jquery.simple-text-rotator.min.js' %}"></script>
-    <script src="{% static 'js/plugins.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- JS CDNs -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/imagesloaded/5.0.0/imagesloaded.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/jquery.flexslider-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-smooth-scroll/2.2.0/jquery.smooth-scroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/peachananr/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
+
+    <!-- Optional: Your own JS -->
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/main.js"></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-hi<h3>Select X and Y Targets</h3>
-
-<form method="post" action="/train-model/">
-    {% csrf_token %}
-
-    <!-- X features -->
-    <h4>Select X Targets (Features):</h4>
-    {% for col in columns %}
-        <label>
-            <input type="checkbox" name="x_targets" value="{{ col }}" class="x-checkbox"> {{ col }}
-        </label><br>
-    {% endfor %}
-
-    <!-- Y target -->
-    <h4>Select Y Target (Label):</h4>
-    {% for col in columns %}
-        <label>
-            <input type="radio" name="y_target" value="{{ col }}" class="y-radio"> {{ col }}
-        </label><br>
-    {% endfor %}
-
-    <input type="hidden" name="csv_file" value="{{ csv_file }}">
-
-    <br><input type="submit" value="Submit Targets">
-</form>
-
-
-<script>
-    const xCheckboxes = document.querySelectorAll('.x-checkbox');
-    const yRadios = document.querySelectorAll('.y-radio');
-
-    function updateXCheckboxes() {
-        const selectedY = document.querySelector('.y-radio:checked')?.value;
-        xCheckboxes.forEach(checkbox => {
-            checkbox.disabled = (checkbox.value === selectedY);
-        });
-    }
-
-    yRadios.forEach(radio => {
-        radio.addEventListener('change', updateXCheckboxes);
-    });
-
-    updateXCheckboxes(); // On page load
-</script>
-
-
-
