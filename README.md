@@ -4,36 +4,51 @@
    Django Project Setup Instructions
 ======================================
 
-1. Clone the repository:
--------------------------
+
+## Run Locally
+
+1. Clone the repository
+
+```bash
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
+```
 
-2. Create a virtual environment:
---------------------------------
-# For Windows:
+2. Create a virtual environment
+
+```bash
+# For Windows
 python -m venv venv
 venv\Scripts\activate
-
-# For macOS/Linux:
+```
+```bash
+# For macOS/Linux
 python3 -m venv venv
 source venv/bin/activate
+```
 
-3. Install project dependencies:
---------------------------------
+3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-4. Run database migrations:
----------------------------
+4. Apply migrations
+
+```bash
 python manage.py migrate
+```
 
-5. Start the Django development server:
----------------------------------------
+5. Run the development server
+
+```bash
 python manage.py runserver
+```
 
-6. Open your browser and navigate to:
--------------------------------------
-http://127.0.0.1:8000
+6. Access the app
+------------------
+
+Open your browser and go to: http://127.0.0.1:8000
 
 ======================================
 
