@@ -1,5 +1,14 @@
 # Django-Auto-ML-Explorer
 
+
+
+https://github.com/user-attachments/assets/a2344b1e-3fb3-4e07-ad9d-4f877de28353
+
+
+https://github.com/user-attachments/assets/72a3b0a3-da8c-4fee-a831-2896bb96151f
+
+
+
 ![1 front page](https://github.com/user-attachments/assets/942fe991-a95b-42d5-9e80-7ccf0fcd9fa8)
 ![2 function page](https://github.com/user-attachments/assets/80888184-8ecf-4437-9ff5-b389e1648995)
 
