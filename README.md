@@ -1,5 +1,44 @@
 # Django-Auto-ML-Explorer
 
+Django Project Setup Instructions
+=================================
+
+1. Clone the repository
+------------------------
+
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+
+2. Create a virtual environment
+-------------------------------
+
+# For Windows
+python -m venv venv
+venv\Scripts\activate
+
+# For macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+3. Install dependencies
+------------------------
+
+pip install -r requirements.txt
+
+4. Apply migrations
+-------------------
+
+python manage.py migrate
+
+5. Run the development server
+------------------------------
+
+python manage.py runserver
+
+6. Access the app
+------------------
+
+Open your browser and go to: http://127.0.0.1:8000
 
 
 https://github.com/user-attachments/assets/a2344b1e-3fb3-4e07-ad9d-4f877de28353
