@@ -1,8 +1,6 @@
 # Django-Auto-ML-Explorer
 
-======================================
-   Django Project Setup Instructions
-======================================
+Django Project Setup Instructions
 
 
 ## Run Locally
@@ -10,8 +8,8 @@
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Aditya-aot/Django-Auto-ML-Explorer.git
+cd Django-Auto-ML-Explorer
 ```
 
 2. Create a virtual environment
